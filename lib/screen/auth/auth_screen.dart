@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -8,16 +9,29 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:const Text("Resgister"),
+        title: const Text("Auth Screen"),
       ),
       body: Column(
         children: [
-          TextField(),
-          TextField(),
+          Expanded(
+            child: ListView(
+              children: [
+                TextField(
+                  controller: passwordController,
+                ),
+                TextField(
+                  controller: usernameController,
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

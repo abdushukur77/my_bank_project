@@ -19,7 +19,10 @@ class App extends StatelessWidget {
       providers: [RepositoryProvider(create: (_) => AuthRepository())],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => AuthBloc()),
+          BlocProvider(
+              create: (context) =>
+                  AuthBloc(authRepository: context.read<AuthRepository>())
+                    ..add(CheckAuthenticationEvent())),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

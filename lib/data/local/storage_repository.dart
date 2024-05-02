@@ -10,6 +10,7 @@ class StorageRepository {
   factory StorageRepository() => instance;
 
   static Future<void> init() async {
+    debugPrint("init sdrdrfgssdg sddfgs ");
     _preference = await SharedPreferences.getInstance();
   }
 

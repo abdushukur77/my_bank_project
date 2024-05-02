@@ -12,7 +12,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await StorageRepository.init();
+  StorageRepository.init();
 
   runApp(App());
 }

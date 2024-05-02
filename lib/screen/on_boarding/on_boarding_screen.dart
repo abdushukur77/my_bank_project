@@ -27,29 +27,37 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       body: Column(
         children: [
           Padding(
-            padding:EdgeInsets.symmetric(horizontal: 25.w),
-            child: Row(children: [
-              TextButton(onPressed: (){
-                setState(() {});
-                if(activeIndex!=0){
-                  activeIndex-=1;
-                  controller.animateToPage(
-                    activeIndex,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.linear,
-                  );
-                }
-              }, child:Text("Back",style: AppTextStyle.interMedium.copyWith(
-                  color: AppColors.c_151940,fontSize: 16.w
-              ),)),
-              const Spacer(),
-              TextButton(onPressed: (){
-                Navigator.pushReplacementNamed(
-                    context, RouteNames.authRoute);
-              }, child:Text("Skip",style: AppTextStyle.interMedium.copyWith(
-                  color: AppColors.c_151940,fontSize: 16.w
-              ))),
-            ],),
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            child: Row(
+              children: [
+                TextButton(
+                    onPressed: () {
+                      setState(() {});
+                      if (activeIndex != 0) {
+                        activeIndex -= 1;
+                        controller.animateToPage(
+                          activeIndex,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.linear,
+                        );
+                      }
+                    },
+                    child: Text(
+                      "Back",
+                      style: AppTextStyle.interMedium
+                          .copyWith(color: AppColors.c_151940, fontSize: 16.w),
+                    )),
+                const Spacer(),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, RouteNames.authRoute);
+                    },
+                    child: Text("Skip",
+                        style: AppTextStyle.interMedium.copyWith(
+                            color: AppColors.c_151940, fontSize: 16.w))),
+              ],
+            ),
           ),
           Expanded(
             child: PageView(
@@ -64,45 +72,53 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ),
           ),
           Padding(
-            padding:EdgeInsets.symmetric(horizontal:33.w),
-            child: Row(children: [
-              Text('${activeIndex+1}/3',style: AppTextStyle.interRegular.copyWith(
-                color: AppColors.c_151940,fontSize:16.w
-              ),),
-              const Spacer(),
-              TextButton(
-                onPressed: () {
-                  if (activeIndex == 2) {
-                    StorageRepository.setBool(
-                      key: "is_new_user",
-                      value: true,
-                    ).then(
-                          (value) {
-                        Navigator.pushReplacementNamed(
-                            context, RouteNames.authRoute);
-                      },
-                    );
-                  } else {
-                    activeIndex += 1;
-                    controller.animateToPage(
-                      activeIndex,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.linear,
-                    );
-                    setState(() {});
-                  }
-                },
-                style: TextButton.styleFrom(
-                    backgroundColor: AppColors.c_151940,
-                    padding: EdgeInsets.symmetric(horizontal:22.w,vertical:30.h)
+            padding: EdgeInsets.symmetric(horizontal: 33.w),
+            child: Row(
+              children: [
+                Text(
+                  '${activeIndex + 1}/3',
+                  style: AppTextStyle.interRegular
+                      .copyWith(color: AppColors.c_151940, fontSize: 16.w),
                 ),
-                child: Text("Next",style: AppTextStyle.interBold.copyWith(
-                    color: AppColors.white,fontSize: 18.w
-                ),),
-              ),
-            ],),
+                const Spacer(),
+                TextButton(
+                  onPressed: () {
+                    if (activeIndex == 2) {
+                      StorageRepository.setBool(
+                        key: "is_new_user",
+                        value: true,
+                      ).then(
+                        (value) {
+                          Navigator.pushReplacementNamed(
+                              context, RouteNames.authRoute);
+                        },
+                      );
+                    } else {
+                      activeIndex += 1;
+                      controller.animateToPage(
+                        activeIndex,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.linear,
+                      );
+                      setState(() {});
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                      backgroundColor: AppColors.c_151940,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 22.w, vertical: 30.h)),
+                  child: Text(
+                    "Next",
+                    style: AppTextStyle.interBold
+                        .copyWith(color: AppColors.white, fontSize: 18.w),
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 30,)
+          const SizedBox(
+            height: 30,
+          )
         ],
       ),
     );
