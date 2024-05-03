@@ -18,6 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             status: FormsStatus.pure,
             errorMessage: "",
             statusMessage: "",
+            userModel: UserModel.intial(),
           ),
         ) {
     on<CheckAuthenticationEvent>(_checkAuthentication);
@@ -49,8 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     if (networkResponse.errorText.isEmpty) {
       emit(state.copyWith(
-        status: FormsStatus.authenticated,
-      ));
+          status: FormsStatus.authenticated, statusMessage: "registered"));
     } else {
       emit(state.copyWith(
         status: FormsStatus.error,
@@ -67,14 +67,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     if (networkResponse.errorText.isEmpty) {
+      UserCredential userCredential = networkResponse.data;
       emit(state.copyWith(
         status: FormsStatus.authenticated,
       ));
     } else {
       emit(state.copyWith(
-        status: FormsStatus.error,
-        errorMessage: networkResponse.errorText,
-      ));
+          status: FormsStatus.error,
+          errorMessage: networkResponse.errorText,
+          userModel: event.userModel));
     }
   }
 
@@ -96,11 +97,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   _googleSignInUser(SignInWithGoogleEvent event, emit) async {
     NetworkResponse networkResponse = await authRepository.googleSignIn();
-
+    UserCredential userCredential = networkResponse.data;
     if (networkResponse.errorText.isEmpty) {
-      emit(state.copyWith(
-        status: FormsStatus.authenticated,
-      ));
+      emit(
+        state.copyWith(
+          statusMessage: "registered",
+          status: FormsStatus.authenticated,
+          userModel: UserModel(
+
+            fcm: "",
+            authUid: userCredential.user!.uid ,
+            password: "password",
+            lastname: userCredential.user!.email!,
+            username: userCredential.user!.displayName ?? "",
+            email: userCredential.user!.email!,
+            imageUrl: userCredential.user!.photoURL ?? "",
+            phoneNumber: userCredential.user!.phoneNumber ?? "",
+            userId: "",
+          ),
+        ),
+      );
     } else {
       emit(state.copyWith(
         status: FormsStatus.error,

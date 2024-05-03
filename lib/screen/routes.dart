@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:my_bank_project/screen/auth/local_auth/method_one/entry_pin_screen.dart';
+
 import 'package:my_bank_project/screen/payment/payment_screen.dart';
+import 'package:my_bank_project/screen/register/regiter_screen.dart';
 import 'package:my_bank_project/screen/splash/splash_screen.dart';
 import 'package:my_bank_project/screen/tab/tab_screen.dart';
 import 'package:my_bank_project/screen/transfer/transfer_screen.dart';
 
 import 'auth/auth_screen.dart';
+import 'auth/local_auth/bio_auth/touch_id_screen.dart';
+import 'auth/local_auth/method_one/confirm_pin_screen.dart';
+import 'auth/local_auth/method_one/set_pin_route.dart';
 import 'no_internet/no_internet_screen.dart';
 import 'on_boarding/on_boarding_screen.dart';
 
@@ -29,7 +35,16 @@ class AppRoutes {
         return navigate(const AuthScreen());
       case RouteNames.onBoardingRoute:
         return navigate(const OnBoardingScreen());
-
+      case RouteNames.register:
+        return navigate(const RegisterScreen());
+      case RouteNames.setPinRoute:
+        return navigate(const SetPinRouteScreen());
+      case RouteNames.confirmPinRoute:
+        return navigate(const ConfirmPinScreen());
+      case RouteNames.touchIdRoute:
+        return navigate(const TouchIdScreen());
+      case RouteNames.enterPinRoute:
+        return navigate(const EntryPinScreen());
       default:
         return navigate(
           const Scaffold(
@@ -54,4 +69,9 @@ class RouteNames {
   static const String paymentRoute = "/payment_route";
   static const String transferRoute = "/transfer_route";
   static const String onBoardingRoute = "/on_boarding_route";
+  static const String register = "/register";
+  static const String setPinRoute = "/set_pin_route";
+  static const String enterPinRoute = "/enter_pin_route";
+  static const String confirmPinRoute = "/confirm_pin_route";
+  static const String touchIdRoute = "/touch_id_route";
 }

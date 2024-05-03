@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_bank_project/blocs/bottom_bloc/bottom_bloc.dart';
+import 'package:my_bank_project/blocs/bottom_bloc/bottom_event.dart';
 
 import '../blocs/auth/auth_bloc.dart';
 import '../data/repositories/auth_repository.dart';
@@ -23,6 +25,9 @@ class App extends StatelessWidget {
               create: (context) =>
                   AuthBloc(authRepository: context.read<AuthRepository>())
                     ..add(CheckAuthenticationEvent())),
+          BlocProvider(
+              create: (context) =>
+                  BottomBloc()..add(ChangeIndexEvent(index: 0)))
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

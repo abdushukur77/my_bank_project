@@ -74,6 +74,7 @@ class LogInWithGoogleFailure implements Exception {
         return const LogInWithGoogleFailure('Email is not found, please create an account.');
       case 'wrong-password':
         return const LogInWithGoogleFailure('Incorrect password, please try again.');
+
       case 'invalid-verification-code':
          return const LogInWithGoogleFailure('The credential verification code received is invalid.');
       case 'invalid-verification-id':

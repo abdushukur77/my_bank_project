@@ -10,18 +10,20 @@ class AuthRepository {
     required String password,
   }) async {
     try {
+      UserCredential userCredential =
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return NetworkResponse(data: "success");
+      return NetworkResponse(data: userCredential);
     } on FirebaseAuthException catch (e) {
       return NetworkResponse(
           errorText: LogInWithEmailAndPasswordFailure.fromCode(e.code).message,
           errorCode: e.code);
 
       LogInWithEmailAndPasswordFailure.fromCode(e.code);
-    } catch (_) {
+    } catch (error) {
+
       return NetworkResponse(errorText: "An unknown exception occurred.");
     }
   }
@@ -31,11 +33,12 @@ class AuthRepository {
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+
+     UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return NetworkResponse(data: "success");
+      return NetworkResponse(data: userCredential);
     } on FirebaseAuthException catch (e) {
       return NetworkResponse(
           errorText: LogInWithEmailAndPasswordFailure.fromCode(e.code).message,
