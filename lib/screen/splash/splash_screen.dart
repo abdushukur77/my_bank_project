@@ -23,6 +23,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  bool hasPin = false;
   _init(bool isAuthenticated) async {
     await Future.delayed(
       const Duration(seconds: 2),
@@ -39,10 +40,27 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacementNamed(context, RouteNames.onBoardingRoute);
       }
     } else {
-      Navigator.pushReplacementNamed(context, RouteNames.tabRoute);
+
+      if(hasPin){
+        Navigator.pushReplacementNamed(context, RouteNames.enterPinRoute);
+
+
+      }else{
+        Navigator.pushReplacementNamed(context, RouteNames.setPinRoute);
+
+      }
+
+      Navigator.pushReplacementNamed(context, RouteNames.setPinRoute);
     }
   }
 
+  @override
+  void initState() {
+    StorageRepository.getString(key: "pin").isNotEmpty;
+
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;

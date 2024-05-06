@@ -38,9 +38,9 @@ class AppRoutes {
       case RouteNames.register:
         return navigate(const RegisterScreen());
       case RouteNames.setPinRoute:
-        return navigate(const SetPinRouteScreen());
+        return navigate(const SetPinScreen());
       case RouteNames.confirmPinRoute:
-        return navigate(const ConfirmPinScreen());
+        return navigate(ConfirmPinScreen(pin: settings.arguments as String));
       case RouteNames.touchIdRoute:
         return navigate(const TouchIdScreen());
       case RouteNames.enterPinRoute:

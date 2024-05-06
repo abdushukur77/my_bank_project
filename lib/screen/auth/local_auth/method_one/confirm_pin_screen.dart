@@ -1,24 +1,105 @@
 import 'package:flutter/material.dart';
+import 'package:my_bank_project/data/local/storage_repository.dart';
+import 'package:my_bank_project/screen/auth/local_auth/method_one/widgets/custom_keyboard_view.dart';
+import 'package:my_bank_project/screen/auth/local_auth/method_one/widgets/pin_put_view.dart';
+import 'package:my_bank_project/screen/routes.dart';
+import 'package:my_bank_project/services/boimetric_auth_service.dart';
+import 'package:my_bank_project/utils/colors/app_colors.dart';
+import 'package:my_bank_project/utils/styles/app_text_style.dart';
+import 'package:my_utils/my_utils.dart';
+import 'package:pinput/pinput.dart';
 
-import '../../../routes.dart';
-import '../../widget/login_button.dart';
+class ConfirmPinScreen extends StatefulWidget {
+  const ConfirmPinScreen({super.key, required this.pin});
 
-class ConfirmPinScreen extends StatelessWidget {
-  const ConfirmPinScreen({super.key});
+  final String pin;
 
   @override
-  Widget build(BuildContext context) {
+  State<ConfirmPinScreen> createState() => _ConfirmPinScreenState();
+}
+
+class _ConfirmPinScreenState extends State<ConfirmPinScreen> {
+  final TextEditingController pinController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+  bool isError = false;
+  bool biometric=false;
+  @override
+  void initState() {
+    BiometricAuthService.canAuthenticated().then((value){
+      if(value){
+        biometric=true;
+      }
+    });
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context){
     return Scaffold(
+      appBar: AppBar(),
       body: Column(
-        children: [Text("Confirm Pin Scree"),
-          LogInButton(
-            title: "Next",
-            onTap: () {
-              Navigator.pushNamed(context, RouteNames.touchIdRoute);
-            }, isLoading: true, isReady: true,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(height: 50.h,),
+          Text(
+            "Pin Kodni qaytadan kiriting",
+            style: AppTextStyle.interSemiBold
+                .copyWith(color: AppColors.black, fontSize: 18.w),
           ),
+          SizedBox(height: 30.h,),
+          SizedBox(
+            width: width / 2,
+            child: PinPutTextView(
+              pinPutFocusNode: focusNode,
+              pinPutController: pinController,
+              isError: isError,
+            ),
+          ),
+          SizedBox(height: 10.h,),
+          Text((!isError) ? "" : "Pin oldingisi bilan mos emas",
+            style: AppTextStyle.interBold.copyWith(
+                color: Colors.red, fontSize: 16.w
+            ),),
+          SizedBox(height: 20.h,),
+          CustomKeyboardView(
+            number: (number) {
+              if (pinController.length < 4) {
+                isError=false;
+                pinController.text += number;
+              }
+              if (pinController.length == 4) {
+                if (widget.pin == pinController.text) {
+                  _setPin(pinController.text);
+                }
+                else {
+                  isError = true;
+                  pinController.clear();
+                }
+              }
+              setState(() {});
+            },
+            isBiometric: false,
+            onClearButton: () {
+              if (pinController.length > 0) {
+                pinController.text = pinController.text.substring(
+                    0, pinController.text.length - 1);
+              }
+            },
+            onFingerButton: () {
+
+            },
+          )
         ],
       ),
     );
   }
+
+  Future<void> _setPin(String pin) async {
+    await StorageRepository.setString(key: 'pin', value: pin);
+    if (!mounted) return;
+    Navigator.pushNamedAndRemoveUntil(
+        context, (biometric)?RouteNames.touchIdRoute:RouteNames.tabRoute,(route)=>false);
+
+  }
+
 }

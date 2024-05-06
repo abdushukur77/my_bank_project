@@ -43,12 +43,12 @@ class _AuthScreenState extends State<AuthScreen> {
     });
   }
 
-  TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   isValid() {
     return AppConstants.passwordRegExp.hasMatch(passwordController.text) &&
-        AppConstants.textRegExp.hasMatch(emailController.text);
+        AppConstants.textRegExp.hasMatch(usernameController.text);
   }
 
   @override
@@ -82,7 +82,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 TextFormFieldWidget(
                   icon: AppImages.email,
                   text: 'Username',
-                  controller: emailController,
+                  controller: usernameController,
                 ),
                 SizedBox(
                   height: 16.h,
@@ -101,7 +101,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   onTap: () {
                     context.read<AuthBloc>().add(LoginUserEvent(
                           password: passwordController.text,
-                          username: emailController.text,
+                          username: usernameController.text,
                         ));
                   },
                   isReady: isValid(),
@@ -116,11 +116,13 @@ class _AuthScreenState extends State<AuthScreen> {
           );
         },
         listener: (context, state) {
-
           if (state.status == FormsStatus.authenticated) {
             if (state.statusMessage == "registered") {
               BlocProvider.of<UserProfileBloc>(context)
                   .add(AddUserEvent(state.userModel));
+            } else {
+              BlocProvider.of<UserProfileBloc>(context)
+                  .add(GetCurrentEvent(state.userModel.authUid));
             }
             Navigator.pushNamedAndRemoveUntil(
                 context, RouteNames.tabRoute, (route) => false);
@@ -132,8 +134,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   void dispose() {
-    emailController.dispose();
-    emailController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 }
