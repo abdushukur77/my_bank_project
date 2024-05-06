@@ -26,19 +26,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
-  bool isValid() {
-    return AppConstants.passwordRegExp.hasMatch(passwordController.text) &&
-        AppConstants.textRegExp.hasMatch(usernameController.text) &&
-        AppConstants.textRegExp.hasMatch(lastnameController.text) &&
-        AppConstants.phoneRegExp.hasMatch(phoneController.text);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: BlocConsumer<AuthBloc, AuthState>(
+      body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           return SingleChildScrollView(
             child: Column(
@@ -67,17 +62,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   validator: (value) {
                     if (value != null &&
                         !AppConstants.textRegExp.hasMatch(value)) {
-                      setState(() {
-
-                      });
+                      setState(() {});
                       return 'Invalid username';
-
                     }
-                    setState(() {
-
-                    });
+                    setState(() {});
                     return null;
-
                   },
                 ),
                 SizedBox(
@@ -106,37 +95,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   validator: (value) {
                     if (value != null &&
                         !AppConstants.passwordRegExp.hasMatch(value)) {
-                      setState(() {
-
-                      });
+                      setState(() {});
                       return 'Invalid password';
                     }
-                    setState(() {
-
-                    });
+                    setState(() {});
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: 16.h,
+                SizedBox(height: 16.h),
+                TextFormFieldWidget(
+                  icon: AppImages.password,
+                  text: "Confirm Password",
+                  isPassword: true,
+                  controller: confirmPasswordController,
+                  validator: (value) {
+                    if (value != null &&
+                        !AppConstants.passwordRegExp.hasMatch(value)) {
+                      setState(() {});
+                      return 'Passwords does not match';
+                    }
+                    setState(() {});
+                    return null;
+                  },
                 ),
+                SizedBox(height: 16.h),
                 TextFormFieldWidget(
                   icon: AppImages.google,
                   text: "Phone",
                   isPassword: false,
                   controller: phoneController,
                   validator: (value) {
-
                     if (value != null &&
                         !AppConstants.phoneRegExp.hasMatch(value)) {
-                      setState(() {
-
-                      });
+                      setState(() {});
                       return 'Invalid phone number';
                     }
-                    setState(() {
-
-                    });
+                    setState(() {});
                     return null;
                   },
                 ),
@@ -144,26 +138,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 35.h,
                 ),
                 LogInButton(
-
                   title: 'Register',
                   onTap: () {
-                    if (true) {
-                      context.read<AuthBloc>().add(RegisterUserEvent(
-                            userModel: UserModel(
+                    if (isValidRegisterCredentials()) {
+                      context.read<AuthBloc>().add(
+                        RegisterUserEvent(
+                          userModel: UserModel(
                               username: usernameController.text,
                               lastname: lastnameController.text,
                               password: passwordController.text,
                               phoneNumber: phoneController.text,
-                              email: "${usernameController.text}@gmail.com".trim(),
+                              email:
+                              "${usernameController.text
+                                  .toLowerCase()}@gmail.com"
+                                  .trim(),
                               imageUrl: '',
                               userId: '',
                               fcm: "",
-                              authUid: ""
-                            ),
-                          ));
+                              authUid: ""),
+                        ),
+                      );
                     }
                   },
-                  isReady: isValid(),
+                  isReady: isValidRegisterCredentials(),
                   isLoading: state.status == FormsStatus.loading,
                 ),
                 SizedBox(
@@ -180,33 +177,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
         },
-        listener: (context, state) {
-          if (state.status == FormsStatus.error) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(
-                state.statusMessage,
-                style: AppTextStyle.interBold
-                    .copyWith(color: AppColors.white, fontSize: 16),
-              ),
-              backgroundColor: Colors.red,
-            ));
-          }
-          if (state.status == FormsStatus.authenticated) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, RouteNames.tabRoute, (route) => false);
-          }
-        },
+
       ),
     );
   }
 
+
+  bool isValidRegisterCredentials() {
+    return AppConstants.passwordRegExp.hasMatch(passwordController.text) &&
+        AppConstants.textRegExp.hasMatch(usernameController.text) &&
+        AppConstants.textRegExp.hasMatch(lastnameController.text) &&
+        AppConstants.phoneRegExp.hasMatch(phoneController.text) &&
+        passwordController.text ==
+            confirmPasswordController.text;
+  }
+
+
   @override
   void dispose() {
-
     passwordController.dispose();
     usernameController.dispose();
     lastnameController.dispose();
     phoneController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_bank_project/blocs/bottom_bloc/bottom_bloc.dart';
 import 'package:my_bank_project/blocs/bottom_bloc/bottom_event.dart';
+import 'package:my_bank_project/blocs/user_profile/user_profile_bloc.dart';
+import 'package:my_bank_project/data/repositories/user_profile_repository.dart';
 
 import '../blocs/auth/auth_bloc.dart';
 import '../data/repositories/auth_repository.dart';
@@ -18,13 +20,21 @@ class App extends StatelessWidget {
     LocalNotificationService.localNotificationService.init(navigatorKey);
 
     return MultiRepositoryProvider(
-      providers: [RepositoryProvider(create: (_) => AuthRepository())],
+      providers: [
+        RepositoryProvider(create: (_) => AuthRepository()),
+        RepositoryProvider(
+          create: (_) => UserProfileRepository(),
+        ),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
               create: (context) =>
                   AuthBloc(authRepository: context.read<AuthRepository>())
                     ..add(CheckAuthenticationEvent())),
+          BlocProvider(
+              create: (context) =>
+                  UserProfileBloc(context.read<UserProfileRepository>())),
           BlocProvider(
               create: (context) =>
                   BottomBloc()..add(ChangeIndexEvent(index: 0)))

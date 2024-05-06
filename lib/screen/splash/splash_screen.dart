@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_bank_project/blocs/auth/auth_bloc.dart';
+import 'package:my_bank_project/blocs/user_profile/user_profile_bloc.dart';
 import 'package:my_bank_project/data/models/forms_status.dart';
 import 'package:my_bank_project/utils/colors/app_colors.dart';
 import 'package:my_bank_project/utils/images/app_images.dart';
@@ -17,7 +19,10 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
+
+
 class _SplashScreenState extends State<SplashScreen> {
+
   _init(bool isAuthenticated) async {
     await Future.delayed(
       const Duration(seconds: 2),
@@ -46,7 +51,13 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
         body: BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        _init(state.status == FormsStatus.authenticated);
+        if (state.status == FormsStatus.authenticated) {
+          BlocProvider.of<UserProfileBloc>(context)
+              .add(GetCurrentEvent(FirebaseAuth.instance.currentUser!.uid));
+          _init(true);
+        } else {
+          _init(false);
+        }
       },
       child: Center(
           child: Column(

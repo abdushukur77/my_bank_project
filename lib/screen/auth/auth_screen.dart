@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_bank_project/blocs/auth/auth_bloc.dart';
+import 'package:my_bank_project/blocs/user_profile/user_profile_bloc.dart';
+import 'package:my_bank_project/data/repositories/user_profile_repository.dart';
 import 'package:my_bank_project/screen/auth/widget/bottom_information.dart';
 import 'package:my_bank_project/screen/auth/widget/login_button.dart';
 import 'package:my_bank_project/screen/auth/widget/test_field_widget.dart';
@@ -114,25 +116,14 @@ class _AuthScreenState extends State<AuthScreen> {
           );
         },
         listener: (context, state) {
-          if (state.status == FormsStatus.error) {
-            print(
-                "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ${state.errorMessage.toString()}");
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(
-                state.statusMessage.toString(),
-                style: AppTextStyle.interBold
-                    .copyWith(color: AppColors.c_1A72DD, fontSize: 16),
-              ),
-              backgroundColor: Colors.green,
-            ));
-          }
+
           if (state.status == FormsStatus.authenticated) {
             if (state.statusMessage == "registered") {
-              // state.userModel
-              //to do user ma'lumotlari
+              BlocProvider.of<UserProfileBloc>(context)
+                  .add(AddUserEvent(state.userModel));
             }
             Navigator.pushNamedAndRemoveUntil(
-                context, RouteNames.setPinRoute, (route) => false);
+                context, RouteNames.tabRoute, (route) => false);
           }
         },
       ),

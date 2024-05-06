@@ -5,6 +5,7 @@ class AuthState extends Equatable {
   final String statusMessage;
   final FormsStatus status;
   final UserModel userModel;
+  final isError = false;
 
   const AuthState(
       {required this.status,
@@ -17,6 +18,8 @@ class AuthState extends Equatable {
     String? statusMessage,
     FormsStatus? status,
     UserModel? userModel,
+    bool? isError,
+
   }) {
     return AuthState(
       status: status ?? this.status,

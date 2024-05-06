@@ -11,7 +11,6 @@ class AddUserEvent extends UserProfileEvent {
   List<Object?> get props => [userModel];
 }
 
-
 class UpdateUserEvent extends UserProfileEvent {
   final UserModel userModel;
 
@@ -30,11 +29,19 @@ class DeleteUserEvent extends UserProfileEvent {
   List<Object?> get props => [userModel];
 }
 
-class GetUserEvent extends UserProfileEvent {
+class GetUserByDocIdEvent extends UserProfileEvent {
+  GetUserByDocIdEvent({required this.docId});
 
+  final String docId;
 
-  GetUserEvent();
+  @override
+  List<Object?> get props => [docId];
+}
 
+class GetCurrentEvent extends UserProfileEvent {
+
+  final String uid;
+  GetCurrentEvent(this.uid);
   @override
   List<Object?> get props => [];
 }

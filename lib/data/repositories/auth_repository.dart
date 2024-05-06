@@ -34,7 +34,8 @@ class AuthRepository {
   }) async {
     try {
 
-     UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+     UserCredential userCredential = await
+     FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -44,7 +45,7 @@ class AuthRepository {
           errorText: LogInWithEmailAndPasswordFailure.fromCode(e.code).message,
           errorCode: e.code);
 
-      LogInWithEmailAndPasswordFailure.fromCode(e.code);
+
     } catch (_) {
       return NetworkResponse(errorText: "An unknown exception occurred.");
     }
