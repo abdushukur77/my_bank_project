@@ -3,9 +3,11 @@ import 'package:my_bank_project/screen/auth/local_auth/method_one/entry_pin_scre
 
 import 'package:my_bank_project/screen/payment/payment_screen.dart';
 import 'package:my_bank_project/screen/register/regiter_screen.dart';
+import 'package:my_bank_project/screen/security/security_screen.dart';
 import 'package:my_bank_project/screen/splash/splash_screen.dart';
 import 'package:my_bank_project/screen/tab/tab_screen.dart';
 import 'package:my_bank_project/screen/transfer/transfer_screen.dart';
+import 'package:my_bank_project/screen/update_screen/update_profile_screen.dart';
 
 import 'auth/auth_screen.dart';
 import 'auth/local_auth/bio_auth/touch_id_screen.dart';
@@ -45,6 +47,11 @@ class AppRoutes {
         return navigate(const TouchIdScreen());
       case RouteNames.enterPinRoute:
         return navigate(const EntryPinScreen());
+      case RouteNames.updateProfile:
+        return navigate(const UpdateProfileScreen());
+
+      case RouteNames.securityRoute:
+        return navigate(const SecurityScreen());
       default:
         return navigate(
           const Scaffold(
@@ -74,4 +81,6 @@ class RouteNames {
   static const String enterPinRoute = "/enter_pin_route";
   static const String confirmPinRoute = "/confirm_pin_route";
   static const String touchIdRoute = "/touch_id_route";
+  static const String updateProfile = "/update_profile";
+  static const String securityRoute = "/security_route";
 }
