@@ -11,7 +11,7 @@ on:
 name: "Build & Release"
 jobs:
   build:
-    name:  Build & Release
+    name: Build & Release
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
