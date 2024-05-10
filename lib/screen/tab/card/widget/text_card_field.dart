@@ -1,64 +1,57 @@
-// text_form_field_widget.dart
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_utils/my_utils.dart';
 
-import '../../../utils/colors/app_colors.dart';
-import '../../../utils/styles/app_text_style.dart';
+import '../../../../utils/colors/app_colors.dart';
+import '../../../../utils/styles/app_text_style.dart';
 
-class TextFormFieldWidget extends StatefulWidget {
-  const TextFormFieldWidget({
-    Key? key,
-    required this.icon,
-    required this.text,
-    this.isPassword = false,
-    required this.controller,
-    this.validator,
-  }) : super(key: key);
+class TextCardField extends StatefulWidget {
+  const TextCardField({super.key, required this.hint, required this.typew, required this.cnt});
+
+  final String hint;
+  final TextInputType typew;
+  final TextEditingController cnt;
 
 
-  final String icon;
-  final String text;
-  final bool isPassword;
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
 
   @override
-  State<TextFormFieldWidget> createState() => _TextFormFieldWidgetState();
+  State<TextCardField> createState() => _TextCardFieldState();
 }
 
-class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
-  bool _isObscure = false;
-
+class _TextCardFieldState extends State<TextCardField> {
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 34.w),
       child: TextFormField(
+        controller: widget.cnt,
+        keyboardType: widget.typew,
+        // keyboardType: typew,
         onChanged: (value) {
           setState(() {});
         },
-        validator: widget.validator,
-        controller: widget.controller,
-        obscureText: widget.isPassword && !_isObscure,
+        // validator: widget.validator,
+        // controller: widget.controller,
+        // obscureText: widget.isPassword && !_isObscure,
         style: AppTextStyle.interMedium
             .copyWith(color: AppColors.black, fontSize: 16.w),
         decoration: InputDecoration(
           contentPadding:
           EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
           hintStyle: AppTextStyle.interSemiBold,
-          hintText: widget.text,
-          suffixIcon: widget.isPassword
-              ? IconButton(
-            onPressed: () {
-              setState(() {
-                _isObscure = !_isObscure;
-              });
-            },
-            icon: Icon(
-              _isObscure ? Icons.visibility : Icons.visibility_off,
-            ),
-          )
-              : null,
+          hintText: widget.hint,
+          // suffixIcon: widget.isPassword
+          //     ? IconButton(
+          //   onPressed: () {
+          //     setState(() {
+          //       _isObscure = !_isObscure;
+          //     });
+          //   },
+          //   icon: Icon(
+          //     _isObscure ? Icons.visibility : Icons.visibility_off,
+          //   ),
+          // )
+          //     : null,
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
                 width: 1.w, color: AppColors.black.withOpacity(0.5)),

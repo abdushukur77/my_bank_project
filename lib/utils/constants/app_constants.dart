@@ -7,6 +7,8 @@ class AppConstants {
   static  RegExp phoneRegExp = RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
 
   static String users= "users";
+  static String cards= "cards";
+  static String cardDB= "cards_db";
 
 
 }

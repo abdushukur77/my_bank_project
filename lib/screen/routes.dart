@@ -5,6 +5,8 @@ import 'package:my_bank_project/screen/payment/payment_screen.dart';
 import 'package:my_bank_project/screen/register/regiter_screen.dart';
 import 'package:my_bank_project/screen/security/security_screen.dart';
 import 'package:my_bank_project/screen/splash/splash_screen.dart';
+import 'package:my_bank_project/screen/tab/card/add_card_screen.dart';
+import 'package:my_bank_project/screen/tab/card/card_screen.dart';
 import 'package:my_bank_project/screen/tab/tab_screen.dart';
 import 'package:my_bank_project/screen/transfer/transfer_screen.dart';
 import 'package:my_bank_project/screen/update_screen/update_profile_screen.dart';
@@ -49,6 +51,11 @@ class AppRoutes {
         return navigate(const EntryPinScreen());
       case RouteNames.updateProfile:
         return navigate(const UpdateProfileScreen());
+      case RouteNames.cardScreen:
+        return navigate(const CardScreen());
+
+      case RouteNames.addCardScreen:
+        return navigate(AddCardScreen());
 
       case RouteNames.securityRoute:
         return navigate(const SecurityScreen());
@@ -83,4 +90,6 @@ class RouteNames {
   static const String touchIdRoute = "/touch_id_route";
   static const String updateProfile = "/update_profile";
   static const String securityRoute = "/security_route";
+  static const String cardScreen = "/add_card";
+  static const String addCardScreen = "/add_card_screen";
 }

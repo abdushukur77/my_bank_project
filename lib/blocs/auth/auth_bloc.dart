@@ -90,7 +90,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } else {
-      emit(state.copyWith(
+        emit(state.copyWith(
           status: FormsStatus.error,
           errorMessage: networkResponse.errorText,
           userModel: event.userModel));

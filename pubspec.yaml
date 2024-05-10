@@ -56,6 +56,7 @@ dependencies:
   very_good_analysis: ^5.1.0
   pinput: ^4.0.0
   local_auth: ^2.2.0
+  zoom_tap_animation: ^1.1.0
 
   my_utils:
     path: packages/my_utils
